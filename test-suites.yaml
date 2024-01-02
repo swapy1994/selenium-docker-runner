@@ -1,0 +1,24 @@
+# there is one issue with this approach i.e. this script will run endlessly if executed in jenkins,
+# because the hub and chrome container will not be closed on their own once test is complete and hence,
+# the jenkins job will run endlessly. so for jenkins follow runner appraoch 2
+version: "3"
+services:
+  vendor-portal:
+    image: swapy1994/selenium-tests
+    environment:
+      - BROWSER=chrome
+      - HUB_HOST=hub
+      - THREAD_COUNT=3
+      - TEST_SUITE=vendor-portal.xml
+    volumes:
+      - ./output/vendor-portal:/home/selenium-docker/test-output
+
+  flight-reservation:
+    image: swapy1994/selenium-tests
+    environment:
+      - BROWSER=firefox
+      - HUB_HOST=hub
+      - THREAD_COUNT=4
+      - TEST_SUITE=flight-reservation.xml
+    volumes:
+      - ./output/flight-reservation:/home/selenium-docker/test-output
