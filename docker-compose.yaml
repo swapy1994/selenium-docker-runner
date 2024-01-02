@@ -3,8 +3,6 @@ services:
   hub:
     image: selenium/hub
     container_name: selenium_hub
-    ports:
-      # - 4444:4444
 
   chrome:
     image: selenium/node-chrome:4.10
