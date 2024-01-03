@@ -17,7 +17,7 @@ pipeline{
             steps{
                // use 'sh' instead of 'bat'  and use ${} instead of %% when executing on linux
                // to pass the jenkins parameters we need to use params class
-                bat "docker-compose -f grid.yaml up --scale %params.BROWSER%=2 -d"
+                bat "docker-compose -f grid.yaml up --scale ${params.BROWSER}=2 -d"
                 
             }
         }
