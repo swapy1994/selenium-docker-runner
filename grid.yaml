@@ -9,7 +9,7 @@ services:
     depends_on:
       - hub # the service on which it depends
     deploy:
-      replicas: 1
+      replicas: 0
     # this option will refer the environment properties from .env file located at root folder of this docker-compose file.
     env_file: .env
 
@@ -19,7 +19,7 @@ services:
     depends_on:
       - hub # the service on which it depends
     deploy:
-      replicas: 1
+      replicas: 0
     env_file: .env
 
   
