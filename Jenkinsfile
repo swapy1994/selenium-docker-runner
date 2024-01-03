@@ -17,14 +17,22 @@ pipeline{
             steps{
                // use 'sh' instead of 'bat'  and use ${} instead of %% when executing on linux
                // to pass the jenkins parameters we need to use params class
-                bat "docker-compose -f grid.yaml up --scale ${params.BROWSER}=2 -d"
+                bat "docker-compose -f grid.yaml up --pull=always --scale ${params.BROWSER}=2 -d"
                 
             }
         }
 
         stage('Run Tests'){
             steps{
-                bat "docker-compose -f test-suites.yaml up"
+                //here we have added alwasy option so that it will pull new updated image from dockerhub always.
+                bat "docker-compose -f test-suites.yaml up --pull=always"
+                script {
+                    //here testng-failed.xml automatically gets generated if any test case fails.So we are using
+                    // to check if the test execution failed or not and accordingly marking the stage as failed.
+                    if(fileExists('output/flight-reservation/testng-failed.xml') || fileExists('output/vendor-portal/testng-failed.xml')){
+                        error('some tests failed.')
+                    }
+                }
             }
         }
     }
